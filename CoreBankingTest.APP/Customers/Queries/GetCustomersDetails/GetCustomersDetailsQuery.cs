@@ -51,7 +51,7 @@ namespace CoreBankingTest.APP.Customers.Queries.GetCustomers
                     AccountType = account.AccountType.ToString(),
                     DisplayName = $"{customer.FirstName} {customer.LastName}",
                     Balance = account.Balance.Amount,
-                    Currency = account.Balance.Currency.Code,
+                    Currency = account.Balance.Currency,
                     IsActive = account.IsActive,
                     DateOpened = account.DateOpened
                 }).ToList()
