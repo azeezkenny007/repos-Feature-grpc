@@ -26,9 +26,8 @@ namespace CoreBankingTest.APP.Customers.Commands.CreateCustomer
                 .MaximumLength(255).WithMessage("Email cannot exceed 255 characters");
 
             RuleFor(x => x.PhoneNumber)
-                .NotEmpty().WithMessage("Phone number is required")
-                .MaximumLength(20).WithMessage("Phone number cannot exceed 20 characters")
-                .Matches(@"^\+?[1-9]\d{1,14}$").WithMessage("Invalid phone number format");
+                    .NotEmpty().WithMessage("Phone number is required")
+                    .Matches(@"^\d{11}$").WithMessage("Phone number must be exactly 11 digits and contain only digits");
 
             RuleFor(x => x.Address)
                 .NotEmpty().WithMessage("Address is required")

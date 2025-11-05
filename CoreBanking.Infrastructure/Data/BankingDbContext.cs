@@ -43,7 +43,7 @@ namespace CoreBankingTest.DAL.Data
                 entity.Property(c => c.CustomerId)
                     .HasConversion(customerId => customerId.Value,
                                 value => CustomerId.Create(value));
-
+                
                 entity.Property(c => c.FirstName).IsRequired().HasMaxLength(100);
                 entity.Property(c => c.LastName).IsRequired().HasMaxLength(100);
                 entity.Property(c => c.Email).IsRequired().HasMaxLength(255);
@@ -51,7 +51,7 @@ namespace CoreBankingTest.DAL.Data
                 entity.Property(c => c.Address).IsRequired().HasMaxLength(500);
                 entity.Property(c => c.DateOfBirth).IsRequired();
                 entity.HasIndex(c => c.Email).IsUnique();
-                entity.HasIndex(c => c.PhoneNumber).IsUnique();
+               
                 // Customer has many Accounts
                 entity.HasMany(c => c.Accounts)
                     .WithOne(a => a.Customer)
