@@ -1,7 +1,6 @@
 ﻿using CoreBankingTest.CORE.Common;
 using CoreBankingTest.CORE.Entities;
 using CoreBankingTest.CORE.Enums;
-using CoreBankingTest.CORE.Events;
 using CoreBankingTest.CORE.Interfaces;
 using CoreBankingTest.CORE.ValueObjects;
 using CoreBankingTest.DAL.Persistence.Configurations;

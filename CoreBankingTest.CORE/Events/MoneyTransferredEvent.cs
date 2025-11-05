@@ -1,4 +1,5 @@
-﻿using CoreBankingTest.CORE.Entities;
+﻿using CoreBankingTest.CORE.Common;
+using CoreBankingTest.CORE.Entities;
 using CoreBankingTest.CORE.Interfaces;
 using CoreBankingTest.CORE.ValueObjects;
 using System;

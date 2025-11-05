@@ -14,9 +14,9 @@ namespace CoreBankingTest.APP.Common.Behaviors
         where TRequest :   IRequest<TResponse>
     {
 
-        private readonly IDomainEventsDispatcher _dispatcher;
+        private readonly IDomainEventDispatcher _dispatcher;
         private readonly ILogger<DomainEventsBehavior<TRequest, TResponse>> _logger;
-        public DomainEventsBehavior(IDomainEventsDispatcher dispatcher, ILogger<DomainEventsBehavior<TRequest,TResponse>> logger)
+        public DomainEventsBehavior(IDomainEventDispatcher dispatcher, ILogger<DomainEventsBehavior<TRequest,TResponse>> logger)
         {
             _dispatcher = dispatcher;
             _logger = logger;

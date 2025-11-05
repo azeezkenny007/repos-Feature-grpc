@@ -18,7 +18,7 @@ namespace CoreBankingTest.DAL.Data
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-             await _context.SaveChangesWithOutboxAsync(cancellationToken);
+             await _context.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
