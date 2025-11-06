@@ -8,7 +8,7 @@ namespace CoreBankingTest.CORE.Interfaces
 {
     public interface IUnitOfWork
     {
-        Task SaveChangesAsync(CancellationToken cancellationToken = default);
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
         Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default);
     }
 }

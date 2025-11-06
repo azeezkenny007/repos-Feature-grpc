@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CoreBankingTest.DAL.Resilience
+namespace CoreBankingTest.DAL.External.Resilience
 {
     public class ResilientHttpClientService : IResilientHttpClientService
     {

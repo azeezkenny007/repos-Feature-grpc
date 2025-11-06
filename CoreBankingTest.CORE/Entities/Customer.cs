@@ -23,7 +23,10 @@ namespace CoreBankingTest.CORE.Entities
         public DateTime? DeletedAt { get; private set; }
         public string? DeletedBy { get; private set; }
         public string Address { get; private set; }
+        public string BVN { get; private set; }
+        public int CreditScore { get; private set; }
         public DateTime DateOfBirth { get; private set; }
+       
 
         // Navigation property for accounts
         private readonly List<Account> _accounts = new();
@@ -31,7 +34,8 @@ namespace CoreBankingTest.CORE.Entities
 
         public Customer() { } // EF Core needs this
 
-        public Customer(string firstName, string lastName, string email, string phoneNumber, string address, DateTime dateOfBirth)
+        public Customer(string firstName, string lastName, string email, string phoneNumber, DateTime dateOfBirth
+            ,string bVN, int creditScore)
         {
             CustomerId = CustomerId.Create();
             FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));
@@ -39,7 +43,8 @@ namespace CoreBankingTest.CORE.Entities
             Email = email ?? throw new ArgumentNullException(nameof(email));
             PhoneNumber = phoneNumber ?? throw new ArgumentNullException(nameof(phoneNumber));
             DateCreated = DateTime.UtcNow;
-            Address = address;
+            BVN = bVN;
+            CreditScore = creditScore;
             IsActive = true;
             DateOfBirth = dateOfBirth;
         }
@@ -55,17 +60,20 @@ namespace CoreBankingTest.CORE.Entities
             PhoneNumber = phoneNumber;
         }
 
-        public static Customer Create(string firstName, string lastName, string email, string phoneNumber, string address, DateTime dateOfBirth)
-        {
-            return new Customer(
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                phoneNumber: phoneNumber,
-                address: address,
-                dateOfBirth: dateOfBirth
-            );
-        }
+        //public static Customer Create(string firstName, string lastName, string email, string phoneNumber, string address, DateTime dateOfBirth, string bvn, int creditScore)
+        //{
+        //    return new Customer(
+        //        firstName: firstName,
+        //        lastName: lastName,
+        //        email: email,
+        //        phoneNumber: phoneNumber,
+        //        address: address,
+        //        dateOfBirth: dateOfBirth,
+        //        bVN: bvn,
+        //        creditScore: creditScore
+                
+        //    );
+        //}
 
         public void Deactivate()
         {

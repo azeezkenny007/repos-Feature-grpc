@@ -47,7 +47,6 @@ namespace CoreBankingTest.DAL.Data
                 entity.Property(c => c.LastName).IsRequired().HasMaxLength(100);
                 entity.Property(c => c.Email).IsRequired().HasMaxLength(255);
                 entity.Property(c => c.PhoneNumber).IsRequired().HasMaxLength(20);
-                entity.Property(c => c.Address).IsRequired().HasMaxLength(500);
                 entity.Property(c => c.DateOfBirth).IsRequired();
                 entity.HasIndex(c => c.Email).IsUnique();
                
@@ -147,14 +146,16 @@ namespace CoreBankingTest.DAL.Data
                 FirstName = "Alice",
                 LastName = "Johnson",
                 Email = "alice.johnson@email.com",
-                PhoneNumber = "08134570701",
+                PhoneNumber = "555-0101",
+                BVN = "20000000000",
+                Address="13, oshinowo street , abue osho",
+                CreditScore = 40,
+                DateOfBirth = DateTime.UtcNow.AddYears(-30),
                 DateCreated = DateTime.UtcNow.AddDays(-30),
                 IsActive = true,
-                Address = "13,Oshinowo street abule osho",
-                DateOfBirth= DateTime.UtcNow.AddDays(-30),
-                IsDeleted = false
+                IsDeleted = false,
             }
-            );
+             );
 
 
 

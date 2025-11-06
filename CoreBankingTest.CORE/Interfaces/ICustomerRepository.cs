@@ -10,12 +10,13 @@ namespace CoreBankingTest.CORE.Interfaces
 {
     public interface ICustomerRepository
     {
-        Task<Customer?> GetByIdAsync(CustomerId customerId);
-        Task<IEnumerable<Customer>> GetAllAsync();
 
-        Task AddAsync (Customer customer);
-        Task UpdateAsync(Customer customer);
-        Task<bool> ExistsAsync (CustomerId customerId);
+        Task<Customer?> GetByIdAsync(CustomerId customerId, CancellationToken cancellationToken = default);
+        Task<IEnumerable<Customer>> GetAllAsync(CancellationToken cancellationToken = default);
+        Task AddAsync(Customer customer, CancellationToken cancellationToken = default);
+        Task UpdateAsync(Customer customer, CancellationToken cancellationToken = default);
+        Task<bool> ExistsAsync(CustomerId customerId, CancellationToken cancellationToken = default);
+
         Task<bool> EmailExistsAsync(string email);
     }
 }
