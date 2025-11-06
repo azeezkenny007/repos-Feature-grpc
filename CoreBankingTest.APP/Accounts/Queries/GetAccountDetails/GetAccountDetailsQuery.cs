@@ -37,10 +37,13 @@ namespace CoreBankingTest.APP.Accounts.Queries.GetAccountDetails
 
          public async Task<Result<AccountDetailsDto>> Handle(GetAccountDetailsQuery request, CancellationToken cancellationToken)
     {
-        var account = await _accountRepository.GetByAccountNumberAsync(AccountNumber.Create(request.AccountNumber));
+        var account = await _accountRepository.GetByAccountNumberAsync(request.AccountNumber);
 
         if (account == null)
             return Result<AccountDetailsDto>.Failure("Account not found");
+
+        if (account.Customer == null)
+            return Result<AccountDetailsDto>.Failure("Account customer data not found");
 
         var dto = new AccountDetailsDto
         {
