@@ -14,6 +14,7 @@ using CoreBankingTest.APP.Accounts.EventHandlers;
 using CoreBankingTest.APP.Common.Behaviors;
 using CoreBankingTest.APP.Common.Interfaces;
 using CoreBankingTest.APP.Common.Mappings;
+using CoreBankingTest.APP.Common.Models;
 using CoreBankingTest.APP.Customers.Commands.CreateCustomer;
 using CoreBankingTest.APP.External.HttpClients;
 using CoreBankingTest.APP.External.Interfaces;
@@ -22,6 +23,7 @@ using CoreBankingTest.CORE.Interfaces;
 using CoreBankingTest.DAL.Data;
 using CoreBankingTest.DAL.External.Resilience;
 using CoreBankingTest.DAL.Repositories;
+using CoreBankingTest.DAL.ServiceBus;
 using CoreBankingTest.DAL.Services;
 using FluentValidation;
 using MediatR;
@@ -76,6 +78,27 @@ namespace CoreBanking.API
 
             // SignalR
             builder.Services.AddSignalR();
+
+            builder.Services.Configure<ResilienceOptions>(builder.Configuration.GetSection("Resilience"));
+
+            // Add advanced Polly policies
+            builder.Services.AddSingleton<AdvancedPollyPolicies>();
+
+            // Add simulated external services
+            builder.Services.AddSingleton<ISimulatedCreditScoringService, SimulatedCreditScoringService>();
+
+            // Add Azure Service Bus (simulated for now - will configure properly in subscequent class)
+
+
+            //builder.Services.AddSingleton<IServiceBusSender>(provider =>
+            //{
+            //    var logger = provider.GetRequiredService<ILogger<ServiceBusSender>>();
+            //    // For today, we'll use a mock. Tomorrow we'll add real Azure Service Bus connection
+            //    return new MockServiceBusSender(logger);
+            //});
+
+            builder.Services.AddSingleton<IEventPublisher, ServiceBusEventPublisher>();
+            builder.Services.AddScoped<IDomainEventDispatcher, ServiceBusEventDispatcher>();
 
             // MediatR setup
             builder.Services.AddMediatR(cfg =>

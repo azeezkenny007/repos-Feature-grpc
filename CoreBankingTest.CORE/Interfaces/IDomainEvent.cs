@@ -8,6 +8,9 @@ namespace CoreBankingTest.CORE.Interfaces
 {
     public interface IDomainEvent
     {
+        Guid EventId { get; }
+        string EventType { get; }
         DateTime OccurredOn { get; }
+
     }
 }
