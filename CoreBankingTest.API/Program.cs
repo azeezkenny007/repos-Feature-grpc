@@ -195,7 +195,7 @@ namespace CoreBanking.API
                     sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
                     onRetry: (outcome, timespan, retryCount, context) =>
                     {
-                        var logger = context.GetLogger();
+                        var logger = CoreBankingTest.API.Extensions.PollyContextExtensions.GetLogger(context);
                         logger?.LogWarning("Retry {RetryCount} after {Delay}ms", retryCount, timespan.TotalMilliseconds);
                     }));
 

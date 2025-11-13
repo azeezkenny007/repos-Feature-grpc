@@ -33,12 +33,12 @@ public class InterestCalculationService : IInterestCalculationService
 
         _logger.LogInformation("Found {AccountCount} interest-bearing accounts", interestBearingAccounts.Count);
 
-        var results = new InterestCalculationResult
-        {
-            SuccessfulCalculations = 0,
-            FailedCalculations = 0,
-            TotalInterest = 0
-        };
+        // Use factory method because the constructor is not publicly accessible
+        var results = InterestCalculationResult.Success(0m);
+        results.SuccessfulCalculations = 0;
+        results.FailedCalculations = 0;
+        results.TotalInterest = 0m;
+
         var interestTransactions = new List<Transaction>();
 
         foreach (var account in interestBearingAccounts)
