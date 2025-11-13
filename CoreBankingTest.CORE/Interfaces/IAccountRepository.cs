@@ -18,5 +18,12 @@ namespace CoreBankingTest.CORE.Interfaces
         Task AddAsync(Account account);
         Task UpdateAsync(Account account);
         Task<bool> AccountNumberExistsAsync(AccountNumber account);
+
+        // Background job related methods
+        Task<List<Account>> GetActiveAccountsAsync(CancellationToken cancellationToken = default);
+        Task<List<Account>> GetInterestBearingAccountsAsync(CancellationToken cancellationToken = default);
+        Task<List<Account>> GetInactiveAccountsSinceAsync(DateTime sinceDate, CancellationToken cancellationToken = default);
+        Task<List<Account>> GetAccountsByStatusAsync(string status, CancellationToken cancellationToken = default);
+        Task<List<Account>> GetAccountsWithLowBalanceAsync(decimal minimumBalance, CancellationToken cancellationToken = default);
     }
 }

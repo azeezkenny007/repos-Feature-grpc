@@ -13,6 +13,7 @@ namespace CoreBankingTest.CORE.Enums
         Transfer = 3,
         Interest = 4,
         TransferIn = 5,
-        TransferOut = 6
+        TransferOut = 6,
+        InterestCredit = 7
     }
 }

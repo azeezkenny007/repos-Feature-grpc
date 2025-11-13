@@ -1,7 +1,9 @@
 ﻿using CoreBanking.API.gRPC.Mappings;
 using CoreBanking.Infrastructure.ServiceBus;
-
-//using CoreBankingTest.API.Extensions;
+using CoreBanking.Infrastructure.BackgroundJobs;
+using CoreBanking.Infrastructure.Services;
+using CoreBankingTest.API.Extensions;
+using CoreBankingTest.APP.BackgroundJobs;
 using CoreBankingTest.API.gRPC.Interceptors;
 using CoreBankingTest.API.gRPC.Services;
 using CoreBankingTest.API.Hubs;
@@ -132,6 +134,21 @@ namespace CoreBanking.API
             builder.Services.AddScoped<IFraudDetectionService, MockFraudDetectionService>();
 
             // =====================================================================
+            // HANGFIRE BACKGROUND JOBS
+            // =====================================================================
+            builder.Services.AddHangfireServices(builder.Configuration);
+
+            // Register background job services
+            builder.Services.AddScoped<IDailyStatementService, DailyStatementService>();
+            builder.Services.AddScoped<IInterestCalculationService, InterestCalculationService>();
+            builder.Services.AddScoped<IAccountMaintenanceService, AccountMaintenanceService>();
+            builder.Services.AddScoped<IJobInitializationService, JobInitializationService>();
+
+            // Register helper services for background jobs
+            builder.Services.AddScoped<CoreBankingTest.CORE.Interfaces.IEmailService, EmailService>();
+            builder.Services.AddScoped<CoreBankingTest.CORE.Interfaces.IPdfGenerationService, PdfGenerationService>();
+
+            // =====================================================================
             // DOMAIN EVENT HANDLERS
             // =====================================================================
             builder.Services.AddTransient<INotificationHandler<AccountCreatedEvent>, AccountCreatedEventHandler>();
@@ -243,6 +260,9 @@ namespace CoreBanking.API
             app.UseAuthorization();
             app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
+            // Hangfire Dashboard (accessible at /hangfire)
+            app.UseHangfireDashboardWithAuth();
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger(options => options.OpenApiVersion = Microsoft.OpenApi.OpenApiSpecVersion.OpenApi2_0);
@@ -268,6 +288,18 @@ namespace CoreBanking.API
                 catch (Exception ex)
                 {
                     logger.LogWarning(ex, "[Startup] Skipping Service Bus setup (mock or offline).");
+                }
+
+                // Initialize Hangfire recurring jobs
+                try
+                {
+                    var jobInitializer = scope.ServiceProvider.GetRequiredService<IJobInitializationService>();
+                    await jobInitializer.InitializeRecurringJobsAsync();
+                    logger.LogInformation("[Startup] Hangfire recurring jobs initialized successfully");
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "[Startup] Failed to initialize Hangfire recurring jobs");
                 }
             }
 

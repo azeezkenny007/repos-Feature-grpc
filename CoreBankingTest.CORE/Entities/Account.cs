@@ -25,6 +25,15 @@ namespace CoreBankingTest.CORE.Entities
         public DateTime? DeletedAt { get; private set; }
         public string? DeletedBy { get; private set; }
 
+        // Properties for background job processing
+        public DateTime LastActivityDate { get; private set; } = DateTime.UtcNow;
+        public string Status { get; private set; } = "Active"; // Active, Inactive, Closed, Suspended
+        public bool IsInterestBearing { get; private set; } = true;
+        public bool IsArchived { get; private set; } = false;
+
+        // Computed property for current balance
+        public decimal CurrentBalance => Balance.Amount;
+
         private readonly List<DomainEvent> _domainEvents = new();
         public IReadOnlyCollection<DomainEvent> DomainEvents => _domainEvents.AsReadOnly();
 
@@ -290,6 +299,39 @@ namespace CoreBankingTest.CORE.Entities
                 throw new InvalidOperationException("Cannot update balance for inactive account.");
 
             Balance = newBalance;
+        }
+
+        // Methods for background job maintenance
+        public void MarkAsClosed()
+        {
+            Status = "Closed";
+            LastActivityDate = DateTime.UtcNow;
+            IsActive = false;
+        }
+
+        public void MarkAsArchived()
+        {
+            IsArchived = true;
+            LastActivityDate = DateTime.UtcNow;
+        }
+
+        public void UpdateStatusBasedOnRules()
+        {
+            // Business rules for status updates
+            if (LastActivityDate < DateTime.UtcNow.AddYears(-1) && Status == "Active")
+            {
+                Status = "Inactive";
+            }
+        }
+
+        public void UpdateLastActivityDate()
+        {
+            LastActivityDate = DateTime.UtcNow;
+        }
+
+        public void SetInterestBearing(bool isInterestBearing)
+        {
+            IsInterestBearing = isInterestBearing;
         }
     }
 

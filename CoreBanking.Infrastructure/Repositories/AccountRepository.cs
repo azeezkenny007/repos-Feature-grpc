@@ -96,6 +96,52 @@ namespace CoreBankingTest.DAL.Repositories
         {
             await _context.SaveChangesAsync();
         }
+
+        // Background job related methods
+        public async Task<List<Account>> GetActiveAccountsAsync(CancellationToken cancellationToken = default)
+        {
+            return await _context.Accounts
+                .Include(a => a.Customer)
+                .Where(a => a.Status == "Active" && a.IsActive)
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task<List<Account>> GetInterestBearingAccountsAsync(CancellationToken cancellationToken = default)
+        {
+            return await _context.Accounts
+                .Include(a => a.Customer)
+                .Where(a => a.IsInterestBearing &&
+                        a.Status == "Active" &&
+                        a.IsActive)
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task<List<Account>> GetInactiveAccountsSinceAsync(DateTime sinceDate, CancellationToken cancellationToken = default)
+        {
+            return await _context.Accounts
+                .Include(a => a.Customer)
+                .Where(a => a.LastActivityDate < sinceDate &&
+                        a.Status == "Active" &&
+                        a.Balance.Amount == 0)
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task<List<Account>> GetAccountsByStatusAsync(string status, CancellationToken cancellationToken = default)
+        {
+            return await _context.Accounts
+                .Include(a => a.Customer)
+                .Where(a => a.Status == status)
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task<List<Account>> GetAccountsWithLowBalanceAsync(decimal minimumBalance, CancellationToken cancellationToken = default)
+        {
+            return await _context.Accounts
+                .Include(a => a.Customer)
+                .Where(a => a.Balance.Amount < minimumBalance &&
+                        a.Status == "Active")
+                .ToListAsync(cancellationToken);
+        }
     }
 }
 

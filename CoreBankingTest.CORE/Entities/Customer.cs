@@ -26,7 +26,10 @@ namespace CoreBankingTest.CORE.Entities
         public string BVN { get; private set; }
         public int CreditScore { get; private set; }
         public DateTime DateOfBirth { get; private set; }
-       
+        public bool EmailOptIn { get; private set; } = true;
+
+        // Computed property for full name
+        public string FullName => $"{FirstName} {LastName}";
 
         // Navigation property for accounts
         private readonly List<Account> _accounts = new();

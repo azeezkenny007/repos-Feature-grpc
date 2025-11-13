@@ -20,5 +20,13 @@ namespace CoreBankingTest.CORE.Interfaces
 
         Task UpdateAsync(Transaction transaction, CancellationToken cancellationToken = default);
 
+        // Background job related methods
+        Task AddRangeAsync(List<Transaction> transactions, CancellationToken cancellationToken = default);
+        Task SaveChangesAsync(CancellationToken cancellationToken = default);
+        Task<List<Transaction>> GetTransactionsBeforeAsync(DateTime cutoffDate, CancellationToken cancellationToken = default);
+        Task<List<Transaction>> GetRecentTransactionsByAccountAsync(AccountId accountId, DateTime sinceDate, CancellationToken cancellationToken = default);
+        Task<List<Transaction>> GetTransactionsByDateRangeAsync(DateTime startDate, DateTime endDate, CancellationToken cancellationToken = default);
+        Task<List<Transaction>> GetTransactionsByAccountAndDateRangeAsync(AccountId accountId, DateTime startDate, DateTime endDate, CancellationToken cancellationToken = default);
+        Task<decimal> GetAverageDailyBalanceAsync(AccountId accountId, DateTime startDate, DateTime endDate, CancellationToken cancellationToken = default);
     }
 }

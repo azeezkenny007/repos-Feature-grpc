@@ -42,5 +42,22 @@ namespace CoreBankingTest.CORE.Entities
         {
             return $"{Timestamp:yyyyMMddHHmmss}-{TransactionId.ToString().Substring(0, 8)}";
         }
+
+        // Static factory method for interest credit transactions
+        public static Transaction CreateInterestCredit(AccountId accountId, Money amount, DateTime calculationDate, string description)
+        {
+            var transaction = new Transaction
+            {
+                TransactionId = TransactionId.Create(),
+                AccountId = accountId,
+                Type = TransactionType.InterestCredit,
+                Amount = amount,
+                Description = description,
+                Timestamp = calculationDate,
+                Reference = $"INT-{calculationDate:yyyyMMdd}-{Guid.NewGuid().ToString().Substring(0, 8).ToUpper()}"
+            };
+
+            return transaction;
+        }
     }
 }
