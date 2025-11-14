@@ -155,7 +155,8 @@ namespace CoreBankingTest.DAL.Data
                 DateOfBirth = new DateTime(1995, 1, 1, 0, 0, 0, DateTimeKind.Utc),
                 DateCreated = new DateTime(2024, 10, 1, 0, 0, 0, DateTimeKind.Utc),
                 IsActive = true,
-                IsDeleted = false
+                IsDeleted = false,
+                EmailOptIn = true
             });
 
 
@@ -168,8 +169,12 @@ namespace CoreBankingTest.DAL.Data
                 Currency = "NGN",
                 // Also use a static date for DateOpened
                 DateOpened = new DateTime(2024, 10, 10, 0, 0, 0, DateTimeKind.Utc),
+                LastActivityDate = new DateTime(2024, 10, 10, 0, 0, 0, DateTimeKind.Utc),
+                Status = "Active",
+                IsInterestBearing = true,
                 IsActive = true,
-                IsDeleted = false
+                IsDeleted = false,
+                IsArchived = false
             });
 
 
